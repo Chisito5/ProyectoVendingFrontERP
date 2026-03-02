@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="ERP Vending">
+  <rect x="38" y="18" width="140" height="220" rx="18" fill="#1477b9"/>
+  <rect x="56" y="34" width="104" height="126" rx="8" fill="#ffffff"/>
+  <rect x="72" y="48" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="102" y="48" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="132" y="48" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="72" y="98" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="102" y="98" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="132" y="98" width="22" height="40" rx="2" fill="#f28e1b"/>
+  <rect x="85" y="172" width="72" height="22" rx="5" fill="#ffffff"/>
+  <rect x="121" y="176" width="30" height="14" rx="3" fill="#f28e1b"/>
+  <circle cx="174" cy="188" r="47" fill="#12bb5e" stroke="#f3f4f6" stroke-width="6"/>
+  <rect x="168" y="162" width="12" height="52" rx="2" fill="#ffffff"/>
+  <rect x="148" y="182" width="52" height="12" rx="2" fill="#ffffff"/>
+</svg>

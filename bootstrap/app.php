@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'erp.sesion' => \App\Http\Middleware\VerificarSesionErp::class,
+            'erp.permiso' => \App\Http\Middleware\VerificarPermisoErp::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
