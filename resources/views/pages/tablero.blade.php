@@ -4,7 +4,7 @@
 @section('page_key', 'tablero')
 
 @section('content')
-<div class="space-y-5">
+<div class="space-y-5 erp-tablero-compacto">
 <section class="erp-panel erp-tablero-filtros-panel">
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="erp-tablero-titular">
@@ -132,6 +132,16 @@
     </article>
 </section>
 
+<section class="erp-panel erp-panel--separado">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+            <h2 class="erp-panel-titulo">Ranking ejecutivo</h2>
+            <p class="erp-panel-subtitulo">Top de maquinas segun criterio seleccionado.</p>
+        </div>
+    </div>
+    <div id="tablero-ranking" class="mt-4"></div>
+</section>
+
 <section class="grid gap-4 xl:grid-cols-[1.45fr_1fr]">
     <article class="erp-panel erp-panel--separado">
         <div>
@@ -161,16 +171,6 @@
     </article>
 </section>
 
-<section class="erp-panel erp-panel--separado">
-    <div class="flex flex-wrap items-center justify-between gap-2">
-        <div>
-            <h2 class="erp-panel-titulo">Ranking ejecutivo</h2>
-            <p class="erp-panel-subtitulo">Top de maquinas segun criterio seleccionado.</p>
-        </div>
-    </div>
-    <div id="tablero-ranking" class="mt-4"></div>
-</section>
-
 <section class="grid gap-4 xl:grid-cols-2">
     <article class="erp-panel erp-panel--separado">
         <div>
@@ -192,4 +192,3 @@
 </section>
 </div>
 @endsection
-

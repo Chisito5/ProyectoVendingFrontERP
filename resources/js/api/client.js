@@ -77,8 +77,21 @@ export async function solicitarApi({ method = 'get', url, params, data, headers 
     try {
         const loSolicitud = { method, url, params, data, headers: loHeaders };
         const loRespuesta = await loCliente.request(loSolicitud);
-        return normalizarExito(loRespuesta);
+        const loNormalizado = normalizarExito(loRespuesta);
+        if (debeReintentarPorPayloadNoRoute(loNormalizado, method)) {
+            const loReintentoPayload = await reintentarConBasesAlternas({ method, url, params, data, headers: loHeaders });
+            if (loReintentoPayload) {
+                return normalizarExito(loReintentoPayload);
+            }
+        }
+        return loNormalizado;
     } catch (loError) {
+        if (debeReintentarConAlterna(loError, method)) {
+            const loReintentoHttp = await reintentarConBasesAlternas({ method, url, params, data, headers: loHeaders });
+            if (loReintentoHttp) {
+                return normalizarExito(loReintentoHttp);
+            }
+        }
         if (!loError?.response) {
             const loReintento = await reintentarConBasesAlternas({ method, url, params, data, headers: loHeaders });
             if (loReintento) {
@@ -279,4 +292,22 @@ function esRutaAcceso(tcPathname = '') {
 
 function esFormData(lxData) {
     return typeof FormData !== 'undefined' && lxData instanceof FormData;
+}
+
+function debeReintentarConAlterna(loError, tcMetodo = 'get') {
+    const tnStatus = Number(loError?.response?.status || 0);
+    const tcMetodoNormalizado = String(tcMetodo || 'get').toLowerCase();
+    if (!['get', 'head', 'options'].includes(tcMetodoNormalizado)) return false;
+    return tnStatus === 404 || tnStatus === 500 || tnStatus === 503;
+}
+
+function debeReintentarPorPayloadNoRoute(loNormalizado, tcMetodo = 'get') {
+    const tcMetodoNormalizado = String(tcMetodo || 'get').toLowerCase();
+    if (!['get', 'head', 'options'].includes(tcMetodoNormalizado)) return false;
+    if (loNormalizado?.ok !== false) return false;
+
+    const tcMensaje = String(loNormalizado?.mensaje || '').toLowerCase();
+    const tlNoRoute = tcMensaje.includes('could not be found') || tcMensaje.includes('route') && tcMensaje.includes('not found');
+    const tlErpV1 = tcMensaje.includes('/erp/v1/');
+    return tlNoRoute && tlErpV1;
 }

@@ -38,6 +38,9 @@ return [
     'erp_api' => [
         'url' => env('ERP_API_URL', env('VITE_ERP_API_BASE_URL', 'http://127.0.0.1:8000/api')),
         'timeout_ms' => (int) env('ERP_API_TIMEOUT_MS', 15000),
+        'timezone_source' => env('ERP_API_TIMEZONE_SOURCE', 'UTC'),
+        'timezone_target' => env('ERP_API_TIMEZONE_TARGET', 'America/La_Paz'),
+        'time_offset_minutes' => env('ERP_API_TIME_OFFSET_MINUTES'),
     ],
 
 ];

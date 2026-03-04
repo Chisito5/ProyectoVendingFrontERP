@@ -77,9 +77,7 @@
         <h3 class="erp-panel-titulo">Listado de productos</h3>
         <form id="form-productos-filtros" class="mt-3 grid gap-3 md:grid-cols-2">
             <input name="Busqueda" class="erp-input" placeholder="Busqueda">
-            <input name="Empresa" type="number" min="1" class="erp-input" placeholder="Empresa">
-            <input name="Pagina" type="number" min="1" value="1" class="erp-input">
-            <input name="TamanoPagina" type="number" min="10" value="20" class="erp-input">
+            <input name="Empresa" type="number" min="1" class="erp-input" placeholder="Empresa (opcional)">
         </form>
         <div id="productos-tabla" class="mt-3"></div>
     </article>

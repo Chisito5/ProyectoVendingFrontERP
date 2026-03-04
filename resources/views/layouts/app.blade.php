@@ -48,6 +48,7 @@
         ['ruta' => 'productos', 'texto' => 'Productos', 'permiso' => 'productos.ver'],
         ['ruta' => 'diseno_producto', 'texto' => 'Diseno de producto', 'permiso' => 'diseno_producto.ver'],
         ['ruta' => 'deposito', 'texto' => 'Deposito', 'permiso' => 'deposito.ver'],
+        ['ruta' => 'ventas', 'texto' => 'Ventas', 'permiso' => 'ventas.ver'],
         ['ruta' => 'reposiciones', 'texto' => 'Reposiciones', 'permiso' => 'reposiciones.ver'],
         ['ruta' => 'alertas', 'texto' => 'Alertas', 'permiso' => 'alertas.ver'],
         ['ruta' => 'analitica', 'texto' => 'Analitica', 'permiso' => 'analitica.ver'],
@@ -67,6 +68,7 @@
         ],
         'inventario' => [
             ['texto' => 'Deposito', 'ruta' => 'deposito', 'permiso' => 'deposito.ver'],
+            ['texto' => 'Ventas', 'ruta' => 'ventas', 'permiso' => 'ventas.ver'],
             ['texto' => 'Reposiciones', 'ruta' => 'reposiciones', 'permiso' => 'reposiciones.ver'],
         ],
         'control' => [
@@ -81,6 +83,7 @@
         'productos' => 'productos',
         'diseno_producto' => 'productos',
         'deposito' => 'inventario',
+        'ventas' => 'inventario',
         'reposiciones' => 'inventario',
         'alertas' => 'control',
         'analitica' => 'control',
@@ -136,6 +139,9 @@
         ],
         'apiBaseUrl' => config('services.erp_api.url'),
         'apiTimeout' => (int) config('services.erp_api.timeout_ms', 15000),
+        'apiTimezoneSource' => config('services.erp_api.timezone_source', config('app.timezone', 'America/La_Paz')),
+        'apiTimezoneTarget' => config('services.erp_api.timezone_target', 'America/La_Paz'),
+        'apiTimeOffsetMinutes' => config('services.erp_api.time_offset_minutes'),
         'websocket' => [
             'broadcaster' => env('VITE_ERP_WS_BROADCASTER', 'reverb'),
             'host' => env('VITE_ERP_WS_HOST', '127.0.0.1'),
@@ -154,6 +160,7 @@
             'permisos' => $laPermisos,
         ],
     ];
+
 @endphp
 <body data-page="@yield('page_key')" class="erp-fondo text-slate-100">
     <div class="min-h-screen">
@@ -229,4 +236,3 @@
     </script>
 </body>
 </html>
-

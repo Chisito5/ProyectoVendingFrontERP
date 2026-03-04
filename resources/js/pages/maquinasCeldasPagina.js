@@ -1,4 +1,5 @@
 import { maquinaService } from '../services/maquinaService';
+import { celdaService } from '../services/celdaService';
 import { loteService } from '../services/loteService';
 import { maquinaCeldasService } from '../services/maquinaCeldasService';
 import { productoService } from '../services/productoService';
@@ -453,7 +454,7 @@ export function iniciarPaginaMaquinasCeldas() {
     async function liberarCeldas() {
         const loBoton = buscar('#btn-celdas-liberar');
         setBotonCargando(loBoton, true, 'Liberando...');
-        const loResultado = await ejecutarMutacionCelda((tnMaquina, loPayload) => maquinaCeldasService.liberar(tnMaquina, loPayload));
+        const loResultado = await ejecutarEliminacionLogicaCelda();
         if (loResultado?.ok) {
             mostrarToast('Celda liberada.', 'ok');
             await cargarMatriz();
@@ -461,6 +462,46 @@ export function iniciarPaginaMaquinasCeldas() {
             abrirModalCelda(false);
         }
         setBotonCargando(loBoton, false);
+    }
+
+    async function ejecutarEliminacionLogicaCelda() {
+        const loPayload = construirPayloadAsignacion();
+        if (!loPayload.CeldaAncla || loPayload.CeldaAncla < 1 || loPayload.CeldaAncla > 54) {
+            const loError = { ok: false, mensaje: 'Celda ancla invalida (1 a 54).' };
+            renderizarMensaje(loMensaje, loError);
+            return loError;
+        }
+        if (!loPayload.Motivo) {
+            const loError = { ok: false, mensaje: 'Motivo es obligatorio para eliminar celda.' };
+            renderizarMensaje(loMensaje, loError);
+            return loError;
+        }
+
+        const tnCelda = Number(loPayload.CeldaAncla);
+        const loVersion = await celdaService.obtener(tnCelda);
+        if (!loVersion?.ok) {
+            renderizarMensaje(loMensaje, loVersion);
+            return loVersion;
+        }
+
+        const loCelda = loVersion?.datos ?? {};
+        const tcVersion = String(
+            loCelda.Version ??
+            loCelda.version ??
+            ''
+        ).trim();
+        if (!tcVersion) {
+            const loError = { ok: false, mensaje: `No se pudo obtener Version para celda ${tnCelda}.` };
+            renderizarMensaje(loMensaje, loError);
+            return loError;
+        }
+
+        const loResultado = await celdaService.eliminarLogico(tnCelda, {
+            Version: tcVersion,
+            Motivo: loPayload.Motivo,
+        });
+        renderizarMensaje(loMensaje, loResultado);
+        return loResultado;
     }
 
     async function ejecutarMutacionCelda(fnMutacion) {

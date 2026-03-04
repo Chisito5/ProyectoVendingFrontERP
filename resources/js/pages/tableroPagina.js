@@ -501,7 +501,7 @@ export function iniciarPaginaTablero() {
             loEstado.graficaRanking = new Chart(loCanvasRanking, {
                 type: 'bar',
                 data: {
-                    labels: laTopRanking.map((loFila) => loFila.CodigoMaquina || `Maq ${loFila.IdMaquina}`),
+                    labels: laTopRanking.map((loFila) => loFila.CodigoMaquina || loFila.NombreMaquina || 'Sin codigo'),
                     datasets: [
                         {
                             label: 'Valor ranking',

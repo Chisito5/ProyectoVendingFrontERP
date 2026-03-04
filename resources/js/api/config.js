@@ -45,19 +45,30 @@ function construirBaseUrlsApi(tcBaseInicial) {
     }
 
     if (tcBaseConHostActual) {
-        agregarUrl(laCandidatas, tcBaseConHostActual);
+        agregarVariantesErp(laCandidatas, tcBaseConHostActual);
     }
 
-    agregarUrl(laCandidatas, tcBaseInicial);
-    agregarUrl(laCandidatas, import.meta.env.VITE_ERP_API_BASE_URL || '');
-    agregarUrl(laCandidatas, tcUrlApiDefecto);
+    agregarVariantesErp(laCandidatas, tcBaseInicial);
+    agregarVariantesErp(laCandidatas, import.meta.env.VITE_ERP_API_BASE_URL || '');
+    agregarVariantesErp(laCandidatas, tcUrlApiDefecto);
 
     if (window?.location?.origin) {
-        agregarUrl(laCandidatas, `${window.location.origin}/api`);
-        agregarUrl(laCandidatas, `${window.location.origin}${tcRutaApiAlternaLaragon}`);
+        agregarVariantesErp(laCandidatas, `${window.location.origin}/api`);
+        agregarVariantesErp(laCandidatas, `${window.location.origin}${tcRutaApiAlternaLaragon}`);
     }
 
     return laCandidatas.length ? laCandidatas : [tcUrlApiDefecto];
+}
+
+function agregarVariantesErp(laCandidatas, tcBase) {
+    const tcNormalizada = limpiarUrl(tcBase);
+    if (!tcNormalizada) return;
+
+    agregarUrl(laCandidatas, tcNormalizada);
+
+    if (/(\/api)$/i.test(tcNormalizada)) {
+        agregarUrl(laCandidatas, `${tcNormalizada}/erp/v1`);
+    }
 }
 
 function agregarUrl(laCandidatas, tcUrl) {

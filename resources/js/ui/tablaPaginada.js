@@ -10,9 +10,10 @@ import { buscar, renderizarTablaDatos } from '../utils/dom';
  * Componente tabla paginada server-side.
  */
 export class TablaPaginada {
-    constructor({ selectorContenedor, onCambiarPagina }) {
+    constructor({ selectorContenedor, onCambiarPagina, tablaConfig = {} }) {
         this.loContenedor = buscar(selectorContenedor);
         this.onCambiarPagina = onCambiarPagina;
+        this.tablaConfig = tablaConfig;
         this.loMeta = {
             PaginaActual: 1,
             TotalPaginas: 1,
@@ -32,7 +33,7 @@ export class TablaPaginada {
         if (!this.loContenedor) return;
 
         const loTabla = document.createElement('div');
-        renderizarTablaDatos(loTabla, lxDatos);
+        renderizarTablaDatos(loTabla, lxDatos, this.tablaConfig);
 
         const loPaginacion = document.createElement('div');
         loPaginacion.className = 'mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600';
